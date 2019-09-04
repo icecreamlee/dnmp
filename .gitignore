@@ -1,0 +1,5 @@
+.env
+nginx/certs/
+nginx/conf.d/*.conf
+!nginx/conf.d/default.conf
+nginx/certs/logs/

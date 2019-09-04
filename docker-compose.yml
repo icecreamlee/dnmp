@@ -1,0 +1,38 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:${NGINX_VERSION}-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf:ro
+      - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:ro
+      - ${NGINX_LOG_DIR}:/etc/nginx/logs/:rw
+      - ${NGINX_CERT_DIR}:/etc/nginx/certs/:ro
+      - ${WWW_DIR}:/var/www/html/:ro
+    environment:
+      TZ: "$TZ"
+    restart: always
+    networks:
+      - default
+
+  php71:
+    build:
+      context: ./php
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        PHP_XDEBUG_VERSION: ${PHP_XDEBUG_VERSION}
+        ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
+        TZ: "$TZ"
+    volumes:
+      - ${PHP_DIR}:/usr/local/etc/php/
+      - ${WWW_DIR}:/var/www/html/:rw
+    restart: always
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - default
+
+networks:
+    default:
