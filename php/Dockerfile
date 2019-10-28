@@ -21,3 +21,6 @@ RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories
 && docker-php-ext-enable opcache \
 && apk add --no-cache libxml2-dev \
 && docker-php-ext-install -j$(nproc) soap \
+&& apk add --no-cache zip zlib-dev \
+&& docker-php-ext-configure zip --with-zlib-dir=/usr \
+&& docker-php-ext-install zip

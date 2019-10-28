@@ -82,18 +82,18 @@ services:
     networks:
       - default
 
-  mysql57:
-    image: mysql:${MYSQL57_VERSION}
-    ports:
-      - "${MYSQL57_PORT}:3306"
-    volumes:
-      - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
-      - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
-    restart: always
-    networks:
-      - default
+  # mysql57:
+    # image: mysql:${MYSQL57_VERSION}
+    # ports:
+      # - "${MYSQL57_PORT}:3306"
+    # volumes:
+      # - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
+      # - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
+    # environment:
+      # MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
+    # restart: always
+    # networks:
+      # - default
 
 networks:
     default:
