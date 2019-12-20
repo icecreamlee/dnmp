@@ -39,6 +39,7 @@ services:
       args:
         PHP_VERSION: ${PHP_VERSION}
         PHP_XDEBUG_VERSION: ${PHP_XDEBUG_VERSION}
+        PHP_SWOOLE_VERSION: ${PHP_SWOOLE_VERSION}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
         TZ: "$TZ"
     volumes:
@@ -46,6 +47,7 @@ services:
       - ${WWW_DIR}:/var/www/html/:rw
     extra_hosts:
       - "localhost:192.168.0.106"
+      - "dev.yichefu.cn:192.168.0.106"
     restart: always
     cap_add:
       - SYS_PTRACE
@@ -57,7 +59,8 @@ services:
       context: ./php73
       args:
         PHP_VERSION: ${PHP73_VERSION}
-        PHP_XDEBUG_VERSION: ${PHP_XDEBUG_VERSION}
+        PHP_XDEBUG_VERSION: ${PHP73_XDEBUG_VERSION}
+        PHP_SWOOLE_VERSION: ${PHP73_SWOOLE_VERSION}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
         TZ: "$TZ"
     volumes:
@@ -82,18 +85,18 @@ services:
     networks:
       - default
 
-  # mysql57:
-    # image: mysql:${MYSQL57_VERSION}
-    # ports:
-      # - "${MYSQL57_PORT}:3306"
-    # volumes:
-      # - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
-      # - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
-    # environment:
-      # MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
-    # restart: always
-    # networks:
-      # - default
+  mysql57:
+    image: mysql:${MYSQL57_VERSION}
+    ports:
+      - "${MYSQL57_PORT}:3306"
+    volumes:
+      - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
+      - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
+    restart: always
+    networks:
+      - default
 
 networks:
     default:
