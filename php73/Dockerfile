@@ -5,8 +5,11 @@ ARG PHP_XDEBUG_VERSION
 ARG PHP_SWOOLE_VERSION
 ARG ALPINE_REPOSITORIES
 
-RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories \
+COPY ./xdebug-${PHP_XDEBUG_VERSION}.tgz /tmp/xdebug-${PHP_XDEBUG_VERSION}.tgz
+COPY ./swoole-${PHP_SWOOLE_VERSION}.tgz /tmp/swoole-${PHP_SWOOLE_VERSION}.tgz
 
+RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories \
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories \
 && docker-php-ext-install -j$(nproc) exif \
 && docker-php-ext-install -j$(nproc) mysqli \
 && docker-php-ext-install -j$(nproc) bcmath \
@@ -22,10 +25,8 @@ RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories
 && docker-php-ext-configure zip --with-libzip=/usr/include \
 && docker-php-ext-install zip \
 && docker-php-ext-install calendar \
-
 && apk add --no-cache $PHPIZE_DEPS \
-&& pecl install xdebug-${PHP_XDEBUG_VERSION} \
+&& pecl install /tmp/xdebug-${PHP_XDEBUG_VERSION}.tgz \
 && docker-php-ext-enable xdebug \
-&& pecl install swoole-${PHP_SWOOLE_VERSION} \
-&& docker-php-ext-enable swoole \
-&& echo "build success"
+&& pecl install /tmp/swoole-${PHP_SWOOLE_VERSION}.tgz \
+&& docker-php-ext-enable swoole

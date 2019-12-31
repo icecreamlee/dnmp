@@ -1,0 +1,10 @@
+ARG GO_VERSION
+FROM golang:${GO_VERSION}-alpine
+
+WORKDIR /goid
+
+ADD ./go-snowflake /goid
+
+RUN go build .
+
+ENTRYPOINT ["./go-snowflake"]

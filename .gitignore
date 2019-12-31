@@ -1,7 +1,12 @@
 .env
+.idea
 nginx/certs/
 nginx/conf.d/*.conf
 !nginx/conf.d/default.conf
 nginx/certs/logs/
-nginx/log/*.log
+nginx/logs/*.log
 php/*.log
+mysql57/data/
+mysql8/data/
+php/*.log
+php73/*.log

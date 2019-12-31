@@ -66,37 +66,53 @@ services:
     volumes:
       - ${PHP73_DIR}:/usr/local/etc/php/
       - ${WWW_DIR}:/var/www/html/:rw
+    extra_hosts:
+      - "localhost:192.168.0.106"
+      - "agents.yichefu.cn:192.168.0.106"
     restart: always
     cap_add:
       - SYS_PTRACE
     networks:
       - default
 
-  mysql8:
-    image: mysql:${MYSQL_VERSION}
-    ports:
-      - "${MYSQL_PORT}:3306"
-    volumes:
-      - ${MYSQL_CONF_FILE}:/etc/mysql/my.cnf:ro
-      - ${MYSQL_DATA_DIR}:/var/lib/mysql/:rw
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    restart: always
-    networks:
-      - default
+  # mysql8:
+    # image: mysql:${MYSQL_VERSION}
+    # ports:
+      # - "${MYSQL_PORT}:3306"
+    # volumes:
+      # - ${MYSQL_CONF_FILE}:/etc/mysql/my.cnf:ro
+      # - ${MYSQL_DATA_DIR}:/var/lib/mysql/:rw
+    # environment:
+      # MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    # restart: always
+    # networks:
+      # - default
 
-  mysql57:
-    image: mysql:${MYSQL57_VERSION}
-    ports:
-      - "${MYSQL57_PORT}:3306"
-    volumes:
-      - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
-      - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
-    restart: always
-    networks:
-      - default
+  # mysql57:
+    # image: mysql:${MYSQL57_VERSION}
+    # ports:
+      # - "${MYSQL57_PORT}:3306"
+    # volumes:
+      # - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
+      # - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
+    # environment:
+      # MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
+    # restart: always
+    # networks:
+      # - default
+
+  # goid:
+    # build:
+      # context: ./goid
+      # args:
+        # GO_VERSION: ${GO_VERSION}
+    # ports:
+      # - "9998:9998"
+    # restart: always
+    # cap_add:
+      # - SYS_PTRACE
+    # networks:
+      # - default
 
 networks:
     default:
