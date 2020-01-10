@@ -2,6 +2,7 @@ version: "3"
 services:
   nginx:
     image: nginx:${NGINX_VERSION}
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
@@ -19,6 +20,7 @@ services:
       
   # apache:
     # image: httpd:${APACHE_VERSION}
+    # container_name: apache
     # ports:
       # - "80:80"
       # - "443:443"
@@ -42,6 +44,7 @@ services:
         PHP_SWOOLE_VERSION: ${PHP_SWOOLE_VERSION}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
         TZ: "$TZ"
+    container_name: php71
     volumes:
       - ${PHP_DIR}:/usr/local/etc/php/
       - ${WWW_DIR}:/var/www/html/:rw
@@ -63,6 +66,7 @@ services:
         PHP_SWOOLE_VERSION: ${PHP73_SWOOLE_VERSION}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
         TZ: "$TZ"
+    container_name: php73
     volumes:
       - ${PHP73_DIR}:/usr/local/etc/php/
       - ${WWW_DIR}:/var/www/html/:rw
@@ -77,6 +81,7 @@ services:
 
   # mysql8:
     # image: mysql:${MYSQL_VERSION}
+    # container_name: mysql8
     # ports:
       # - "${MYSQL_PORT}:3306"
     # volumes:
@@ -90,6 +95,7 @@ services:
 
   # mysql57:
     # image: mysql:${MYSQL57_VERSION}
+    # container_name: mysql57
     # ports:
       # - "${MYSQL57_PORT}:3306"
     # volumes:
