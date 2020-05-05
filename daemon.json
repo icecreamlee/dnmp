@@ -9,5 +9,5 @@
   ],
   "insecure-registries": [],
   "debug": true,
-  "experimental": true
+  "experimental": false
 }

@@ -17,7 +17,7 @@ services:
     restart: always
     networks:
       - default
-      
+
   # apache:
     # image: httpd:${APACHE_VERSION}
     # container_name: apache
@@ -37,20 +37,21 @@ services:
 
   php71:
     build:
-      context: ./php
+      context: .
+      dockerfile: ./php/Dockerfile
       args:
         PHP_VERSION: ${PHP_VERSION}
         PHP_XDEBUG_VERSION: ${PHP_XDEBUG_VERSION}
         PHP_SWOOLE_VERSION: ${PHP_SWOOLE_VERSION}
+        PHP_COMPOSER_VERSION: ${PHP_COMPOSER_VERSION}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
         TZ: "$TZ"
     container_name: php71
     volumes:
       - ${PHP_DIR}:/usr/local/etc/php/
       - ${WWW_DIR}:/var/www/html/:rw
-    extra_hosts:
-      - "localhost:192.168.0.106"
-      - "dev.yichefu.cn:192.168.0.106"
+    links:
+      - "nginx:localhost"
     restart: always
     cap_add:
       - SYS_PTRACE
@@ -59,20 +60,21 @@ services:
 
   php73:
     build:
-      context: ./php73
+      context: .
+      dockerfile: ./php73/Dockerfile
       args:
         PHP_VERSION: ${PHP73_VERSION}
         PHP_XDEBUG_VERSION: ${PHP73_XDEBUG_VERSION}
         PHP_SWOOLE_VERSION: ${PHP73_SWOOLE_VERSION}
+        PHP_COMPOSER_VERSION: ${PHP73_COMPOSER_VERSION}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
         TZ: "$TZ"
     container_name: php73
     volumes:
       - ${PHP73_DIR}:/usr/local/etc/php/
-      - ${WWW_DIR}:/var/www/html/:rw
-    extra_hosts:
-      - "localhost:192.168.0.106"
-      - "agents.yichefu.cn:192.168.0.106"
+      - ${PHP73_WWW_DIR}:/var/www/html/:rw
+    links:
+      - "nginx:localhost"
     restart: always
     cap_add:
       - SYS_PTRACE
@@ -93,19 +95,20 @@ services:
     # networks:
       # - default
 
-  # mysql57:
-    # image: mysql:${MYSQL57_VERSION}
-    # container_name: mysql57
-    # ports:
-      # - "${MYSQL57_PORT}:3306"
-    # volumes:
-      # - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
-      # - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
-    # environment:
-      # MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
-    # restart: always
-    # networks:
-      # - default
+  mysql57:
+    image: mysql:${MYSQL57_VERSION}
+    container_name: mysql57
+    ports:
+      - "${MYSQL57_PORT}:3306"
+    volumes:
+      - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
+      - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
+      TZ: Asia/Shanghai
+    restart: always
+    networks:
+      - default
 
   # goid:
     # build:

@@ -579,7 +579,6 @@ html_errors = On
 ;error_log = php_errors.log
 ; Log errors to syslog (Event Log on Windows).
 ;error_log = syslog
-error_log = /usr/local/etc/php/php_errors.log
 
 ; The syslog ident is a string which is prepended to every message logged
 ; to syslog. Only used when error_log is set to syslog.
@@ -933,20 +932,13 @@ default_socket_timeout = 60
 ; See http://www.php.net/manual/en/snmp.installation.php
 ;extension=snmp
 
-extension=soap
+;extension=soap
 ;extension=sockets
 ;extension=sodium
 ;extension=sqlite3
 ;extension=tidy
 ;extension=xmlrpc
 ;extension=xsl
-;extension=opcache
-extension=gd
-extension=exif
-extension=bcmath
-extension=mysqli
-extension=pdo_mysql
-extension=swoole
 
 ;;;;;;;;;;;;;;;;;;;
 ; Module Settings ;
@@ -1716,7 +1708,7 @@ zend.assertions = 1
 ;mbstring.http_output_conv_mimetype=
 
 ; This directive specifies maximum stack depth for mbstring regular expressions. It is similar
-; to the pcre.recursion_limit for PCRE.
+; to the pcre.recursion_limit for PCRE. 
 ; Default: 100000
 ;mbstring.regex_stack_limit=100000
 
@@ -1943,14 +1935,3 @@ ldap.max_links = -1
 ; Local Variables:
 ; tab-width: 4
 ; End:
-
-[XDebug]
-zend_extension=xdebug.so
-
-; Debug Config
-xdebug.idekey = PHPSTORM
-xdebug.remote_enable = 1
-xdebug.remote_handler = dbgp
-xdebug.remote_host = localhost
-xdebug.remote_port = 9000
-xdebug.remote_log = /usr/local/etc/php/xdebug.log
