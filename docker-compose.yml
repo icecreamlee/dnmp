@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 services:
   nginx:
     image: nginx:${NGINX_VERSION}
@@ -101,7 +101,7 @@ services:
     ports:
       - "${MYSQL57_PORT}:3306"
     volumes:
-      - ${MYSQL57_CONF_FILE}:/etc/mysql/my.cnf:ro
+      - ${MYSQL57_CONF_DIR}:/etc/mysql/:ro
       - ${MYSQL57_DATA_DIR}:/var/lib/mysql/:rw
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}

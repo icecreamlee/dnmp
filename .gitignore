@@ -1,5 +1,6 @@
 .env
 .idea
+hosts
 nginx/certs/
 nginx/conf.d/*.conf
 !nginx/conf.d/default.conf
