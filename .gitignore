@@ -11,3 +11,5 @@ mysql57/data/
 mysql8/data/
 php/*.log
 php73/*.log
+nginx/log/access.log
+nginx/log/error.log

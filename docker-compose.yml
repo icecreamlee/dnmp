@@ -11,7 +11,7 @@ services:
       - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:ro
       - ${NGINX_LOG_DIR}:/etc/nginx/logs/:rw
       - ${NGINX_CERT_DIR}:/etc/nginx/certs/:ro
-      - ${WWW_DIR}:/var/www/html/:ro
+      - ${WWW_DIR}:/var/www/html/:rw
     environment:
       TZ: "$TZ"
     restart: always
@@ -35,28 +35,29 @@ services:
     # networks:
       # - default
 
-  php71:
-    build:
-      context: .
-      dockerfile: ./php/Dockerfile
-      args:
-        PHP_VERSION: ${PHP_VERSION}
-        PHP_XDEBUG_VERSION: ${PHP_XDEBUG_VERSION}
-        PHP_SWOOLE_VERSION: ${PHP_SWOOLE_VERSION}
-        PHP_COMPOSER_VERSION: ${PHP_COMPOSER_VERSION}
-        ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
-        TZ: "$TZ"
-    container_name: php71
-    volumes:
-      - ${PHP_DIR}:/usr/local/etc/php/
-      - ${WWW_DIR}:/var/www/html/:rw
-    links:
-      - "nginx:localhost"
-    restart: always
-    cap_add:
-      - SYS_PTRACE
-    networks:
-      - default
+
+  # php71:
+  #   build:
+  #     context: .
+  #     dockerfile: ./php/Dockerfile
+  #     args:
+  #       PHP_VERSION: ${PHP_VERSION}
+  #       PHP_XDEBUG_VERSION: ${PHP_XDEBUG_VERSION}
+  #       PHP_SWOOLE_VERSION: ${PHP_SWOOLE_VERSION}
+  #       PHP_COMPOSER_VERSION: ${PHP_COMPOSER_VERSION}
+  #       ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
+  #       TZ: "$TZ"
+  #   container_name: php71
+  #   volumes:
+  #     - ${PHP_DIR}:/usr/local/etc/php/
+  #     - ${WWW_DIR}:/var/www/html/:rw
+  #   links:
+  #     - "nginx:localhost"
+  #   restart: always
+  #   cap_add:
+  #     - SYS_PTRACE
+  #   networks:
+  #     - default
 
   php73:
     build:
@@ -64,6 +65,7 @@ services:
       dockerfile: ./php73/Dockerfile
       args:
         PHP_VERSION: ${PHP73_VERSION}
+        PHP_REDIS_VERSION: ${PHP73_REDIS_VERSION}
         PHP_XDEBUG_VERSION: ${PHP73_XDEBUG_VERSION}
         PHP_SWOOLE_VERSION: ${PHP73_SWOOLE_VERSION}
         PHP_COMPOSER_VERSION: ${PHP73_COMPOSER_VERSION}
@@ -71,7 +73,7 @@ services:
         TZ: "$TZ"
     container_name: php73
     volumes:
-      - ${PHP73_DIR}:/usr/local/etc/php/
+      - ${PHP73_DIR}:/usr/local/etc/php/:rw
       - ${PHP73_WWW_DIR}:/var/www/html/:rw
     links:
       - "nginx:localhost"
@@ -106,6 +108,23 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL57_ROOT_PASSWORD}
       TZ: Asia/Shanghai
+    restart: always
+    networks:
+      - default
+
+  redis:
+    build:
+      context: .
+      dockerfile: ./redis/Dockerfile
+      args:
+        REDIS_VERSION: ${REDIS_VERSION}
+        TZ: "$TZ"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ${PHP73_DIR}:/usr/local/etc/php/:rw
+      - ${PHP73_WWW_DIR}:/var/www/html/:rw
     restart: always
     networks:
       - default
