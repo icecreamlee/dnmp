@@ -122,9 +122,6 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-    volumes:
-      - ${PHP73_DIR}:/usr/local/etc/php/:rw
-      - ${PHP73_WWW_DIR}:/var/www/html/:rw
     restart: always
     networks:
       - default
